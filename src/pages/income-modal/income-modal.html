@@ -1,0 +1,65 @@
+<!--
+  Generated template for the IncomeModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary" align="center">
+    <ion-title>Income Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <p [hidden]="true">TransactionID : {{maxTansactionID}}, trackingCount: {{trackingCount}}</p>
+  <ion-item>
+    <ion-label floating>Your Income title</ion-label>
+    <ion-input  [(ngModel)]="title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Monthly Payment</ion-label>
+    <ion-input  [(ngModel)]="monthlyamount" type="number"></ion-input>
+  </ion-item>
+   <ion-item>
+       <ion-label stacked> Income start date : </ion-label>
+       <ion-input type ="date" (input)= "date = $event.target.value" [(ngModel)]="startdate" (ionChange)="onstartDateChange()"></ion-input>
+  </ion-item> 
+ <ion-item>
+    <ion-label stacked>Income end date</ion-label>
+       <ion-input type ="date" (input)= "date = $event.target.value" [(ngModel)]="enddate" ng-change="onSearchChange()" (ionChange)="onendDateChange()"></ion-input>  </ion-item>
+  <ion-item>
+    <ion-label floating>Payment made at what day of every month?</ion-label>
+    <ion-select [(ngModel)]="monthlypaymentday" multiple="false">
+		<ion-option *ngFor="let day of dayOfMonth">{{day}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <br/>
+  <ion-list radio-group [(ngModel)]="paymenttype" (ionChange)="onPaymentTypeChange()">
+    <ion-item>
+      <ion-label>Scheduled online banking payment</ion-label>
+      <ion-radio  value="Scheduled online banking payment" checked></ion-radio>
+    </ion-item>
+	  <ion-item [hidden]="banknamehiddenstate">
+		<ion-label floating>Bank Name</ion-label>
+		<ion-input  [(ngModel)]="bankname"></ion-input>
+	  </ion-item>
+    <ion-item>
+      <ion-label>Pay by Cash</ion-label>
+      <ion-radio  value="Pay by Cash"></ion-radio>
+    </ion-item>
+  </ion-list>
+<table width="100%">
+				<div style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="deleteIncome()"><p [innerHtml]="action==='Create'?'Cancel':'Delete'" align="center" style="color:white;font-weight:bold;"></p></ion-item>
+				</div>
+				<div style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="saveIncome()"><p align="center" style="color:white;font-weight:bold;">Save</p></ion-item>
+				</div>
+</table>
+<!--
+    <ion-buttons end>
+      <button ion-button icon-only (click)="saveIncome()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+-->
+</ion-content>

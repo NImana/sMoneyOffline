@@ -1,0 +1,126 @@
+<!--
+  Generated template for the TransactionModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar  color="primary" align="center">
+    <ion-title>Transactions</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<table width = "100%" style="table-layout: fixed;">
+		<tr>
+			<p [hidden]="true">TransactionID : {{maxTansactionID}} , LoanID : {{maxLoanID}}</p>
+		</tr>
+		<tr [hidden]="true" style="padding:0 5px;" align="center">
+			<div style="float:left;width:50%;margin-top:-101;"><ion-item [style.background-color]="'#42f456'" (click)="addBonusExpense('Bonus')"><h2 align="center">Add Bonus</h2></ion-item>
+			</div>
+			<div style="float:left;width:50%;margin-top:-101;"><ion-item [style.background-color]="'#f47742'" (click)="addBonusExpense('Expense')"><h2 align="center">Add Expense</h2></ion-item>
+			</div>
+		</tr>
+		<tr style="padding:10px 5px;" align="center">
+			<div [hidden]="addTransactionHiddenState" style="background-color:white;margin:5px;padding:5px;">
+				<ion-item [style.background-color]="type==='Loan' || type==='Expense' ? '#f47742': '#42f456'">
+					<h1 align="center">{{type}}</h1>
+				</ion-item>
+				<ion-item>
+					<ion-label floating>Title</ion-label>
+					<ion-input  [(ngModel)]="title"></ion-input>
+				</ion-item>
+				<ion-item>
+					<ion-label floating>Amount</ion-label>
+					<ion-input  [(ngModel)]="amount" type="number"></ion-input>
+				</ion-item>
+				<ion-item no-lines>
+				   <ion-label stacked> Transaction Date </ion-label>
+				   <ion-input type ="date" (input)= "date = $event.target.value" [(ngModel)]="transactionDate" ></ion-input>
+				</ion-item> 
+				<ion-item>
+				   <ion-label stacked> Transaction Time </ion-label>
+				   <ion-input type ="time" (input)= "time = $event.target.value" [(ngModel)]="transactionTime" ></ion-input>
+				</ion-item>
+				<ion-list radio-group [(ngModel)]="paymenttype" (ionChange)="onPaymentTypeChange()">
+					<ion-item no-lines>
+						<ion-label>Online banking payment</ion-label>
+						<ion-radio  value="Online banking payment" checked></ion-radio>
+					</ion-item>
+					<ion-item>
+						<ion-label>Pay by Cash</ion-label>
+						<ion-radio  value="Pay by Cash"></ion-radio>
+					</ion-item>
+				</ion-list>
+				<ion-item [hidden]="banknamehiddenstate">
+					<ion-label floating>Bank Name</ion-label>
+					<ion-input  [(ngModel)]="bankname"></ion-input>
+				</ion-item>
+			</div>
+				<div [hidden]="addTransactionHiddenState" style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="deleteTransaction()"><p [innerHtml]="action==='create'?'Cancel':'Delete'" align="center" style="color:white;font-weight:bold;"></p></ion-item>
+				</div>
+				<div [hidden]="addTransactionHiddenState" style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="saveTransaction()"><p align="center" style="color:white;font-weight:bold;">Save</p></ion-item>
+				</div>
+		</tr>
+		<tr>
+		<div [hidden]="changedateHiddenState" style="float:left;width:50%;border:1px solid white;">
+			<ion-item [style.background-color]="'#1f6bff'" (click)="changeDateRange('start')">
+				<p align="center" style="color:white;font-weight:bold;">Set Start date</p>
+			</ion-item>
+		</div>
+		<div [hidden]="changedateHiddenState" style="float:left;width:50%;border:1px solid white;">
+			<ion-item [style.background-color]="'#1f6bff'" (click)="changeDateRange('end')">
+				<p align="center" style="color:white;font-weight:bold;">Set End date</p>
+			</ion-item>
+		</div>
+		  <ion-item no-lines class="transactionHeader">
+			  <p style="font-weight:bold;font-size: 1.5rem;margin-top:10px;" align="center" (click)="changeDateRange('')">Transaction History of {{displaystartDate | date:"dd MMM yy"}} to {{displayendDate| date:"dd MMM yy"}}</p>
+		  </ion-item>
+			<ion-list text-align="center" no-padding>
+				<ion-item-sliding *ngFor="let transaction of transactions" #slidingItem>
+				  <ion-item no-lines>
+					<table width="100%" style="border-bottom:1px solid #ccccff">
+						<tr>
+							<td [hidden]="true">{{transaction.typeid}} - {{transaction.transactionID}}</td>
+							<td width="70px">
+								<p style="align:center;" [style.color]="transaction.type==='Loan' || transaction.type==='Expense' ? '#f47742': '#00ca8c'"><b>{{transaction.transactiondate| date:"dd MMM yyyy"}}</b></p>
+							</td>
+							<td width="calc(100% - 170px)" style="text-align:left;padding-left:5px;">
+								<p [style.color]="transaction.type==='Loan' || transaction.type==='Expense' ? '#f47742': '#00ca8c'">{{transaction.title}} {{transaction.type}}</p>
+							</td>
+							<td width="100px" style="text-align:right">
+								<p style="word-break: break-all;" [style.color]="transaction.type==='Loan' || transaction.type==='Expense' ? '#f47742': '#00ca8c'"><b><span [innerHtml]="transaction.type==='Loan' || transaction.type==='Expense' ? '-': '+'"></span>$ {{transaction.amount}}</b></p>
+							</td>
+						</tr>
+					</table>
+<!--
+						<ion-grid no-padding>
+						  <ion-row>
+							<ion-col col-0> </ion-col>
+							<ion-col style="text-align:center;font-weight:bold;width:80px;"><p>{{transaction.transactiondate| date:"dd MMM yyyy"}}</p></ion-col>
+							<ion-col col-5><p style="font-weight:light">{{transaction.title}} {{transaction.type}}</p> </ion-col>
+						    <ion-col col-3 style="text-align:right;font-weight:bold"><p>$ {{transaction.amount}}</p>  </ion-col>
+						  </ion-row>
+						</ion-grid>
+-->
+				  </ion-item>
+				  <ion-item-options side="right">
+					<button ion-button color="light" (click)="editTransaction(transaction,slidingItem)">
+					  <ion-icon name="create"></ion-icon>
+					</button>
+				  </ion-item-options>
+				</ion-item-sliding>
+			</ion-list>
+		</tr>
+	</table>
+
+	 <ion-fab bottom right #fab>
+		<button [hidden]="assignmenuFab(fab)" ion-fab mini color="primary" (click)="addBonusExpense('menu')"><ion-icon name="add"></ion-icon></button>
+	   <ion-fab-list side="left">
+		 <ion-label class="menulabel" (click)="addBonusExpense('Bonus')"><ion-label align="center">Add Bonus</ion-label></ion-label>		
+		 <ion-label class="menulabel" (click)="addBonusExpense('Expense')"><ion-label align="center">Add Expense</ion-label></ion-label> 
+   </ion-fab-list>
+	</ion-fab>
+</ion-content>

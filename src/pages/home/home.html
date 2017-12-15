@@ -1,0 +1,204 @@
+<ion-header no-border>
+  <ion-navbar color="primary" align="center" style="background-color:rgba(19,0,77,0.9)">
+    <ion-title>
+      Overview
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content id="contentID">
+	<ion-fab bottom right #fab id="fabbutton">
+		<div [hidden]="assignmenuFab(fab)" ></div>
+		<button ion-fab mini color="primary" (click)="menuvisibility()"><ion-icon name="add"></ion-icon></button>
+		<ion-fab-list side="down">
+		</ion-fab-list>
+	</ion-fab>
+	<link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+	<table width = "100%" style="table-layout: fixed;">
+		<tr [hidden]="true">
+		  <ion-item>
+			<p>TransactionID : {{maxTansactionID}} , LoanID : {{maxLoanID}}, IncomeID : {{maxIncomeID}}</p> 
+		 </ion-item> 
+		</tr>
+		<tr>
+			<div id="sideButtonMenuWrapper" (click)="menuvisibility()"  style="margin-left:-101%;">
+			</div>
+			<div  class="sideMenu" id="sideButtonMenu" style="margin-left:-101%;z-index: 99;">
+				<div style="height:500%;width:100%;z-index: 100;display:block;" (click)="menuvisibility()">
+					<div class="menuHeader"><img src="assets/icon/bankIcon.png" style="height:50px;float:left;margin:0;margin-left:10px;margin-bottom:10px;"><p>sMoneyOffline</p></div>	
+					<div class="floatingButton" (click)="viewTransaction(fab)"><p>View Transaction</p></div>
+					<div class="floatingButton" (click)="createIncome(fab)"><p>Add Income</p></div>
+					<div class="floatingButton" (click)="addTransaction('Bonus',fab)"><p>Add Bonus</p></div>
+					<div class="floatingButton" (click)="createLoan(fab)"><p>Add Loan</p></div>
+					<div class="floatingButton" (click)="addTransaction('Expense',fab)"><p>Add Expense</p></div>
+				</div>
+			</div>
+		</tr>
+<!--
+		<tr>
+		  <ion-item class="pageHeader">
+			<div>
+			  <p> 
+				  <b>
+					Hello! this is your wallet overview on {{displayDate | date:"dd"}}<sup>&nbsp;{{displayDateExt}}</sup> of {{displayDate | date:"MMMM"}}. 
+				  </b>
+			  </p>
+			 
+			</div>
+		 </ion-item> 
+		</tr>
+-->
+		<tr>
+		<div [hidden]="changedateHiddenState" style="float:left;width:50%;border:1px solid white;">
+			<ion-item [style.background-color]="'#1f6bff'" (click)="changeDateRange('start')">
+				<p align="center" style="color:white;font-weight:bold;">Set Start date</p>
+			</ion-item>
+		</div>
+		<div [hidden]="changedateHiddenState" style="float:left;width:50%;border:1px solid white;">
+			<ion-item [style.background-color]="'#1f6bff'" (click)="changeDateRange('end')">
+				<p align="center" style="color:white;font-weight:bold;">Set End date</p>
+			</ion-item>
+		</div>				
+		  <ion-list class="summary" (click)="showMenu(slidingItem)">
+						<ion-item>
+							<p style="font-weight:bold;font-size: 1.5rem;" align="center" (click)="changeDateRange('')">Summary of {{displaystartDate | date:"dd MMMM yyyy"}} to {{displayendDate| date:"dd MMMM yyyy"}}</p>
+							<table width="100%">
+								<tr>
+									<td width="70%"><p>Total Income</p></td>
+									<td width="2px"><p>:</p></td>
+									<td width="calc(30% -2px)" align="right"><p><em [style.color]="'#42f456'">+ ${{totalIncome}}</em></p></td>
+								</tr>
+								<tr>
+									<td width="70%"><p>Total Bonus</p></td>
+									<td width="2px"><p>:</p></td>
+									<td width="calc(30% -2px)" align="right"><p><em [style.color]="'#42f456'">+ ${{totalBonus}}</em></p></td>
+								</tr>	
+								<tr>
+									<td width="70%"><p>Total Paid Loan</p></td>
+									<td width="2px"><p>:</p></td>
+									<td width="calc(30% -2px)" align="right"><p><em [style.color]="'#f47742'">- ${{totalPaidLoan}}</em></p></td>
+								</tr>	
+								<tr>
+									<td width="70%"><p>Total Expense</p></td>
+									<td width="2px"><p>:</p></td>
+									<td width="calc(30% -2px)" align="right"><p><em [style.color]="'#f47742'">- ${{totalExpense}}</em></p></td>
+								</tr>
+								<tr style="border-bottom:2px solid #ccccff;border-top:1px solid #ccccff;">
+									<td width="70%"><p style="font-weight:bold">Balance</p></td>
+									<td width="2px"><p>:</p></td>
+									<td width="calc(30% -2px)" align="right" style="border-bottom: 4px double #ccccff;"><p><em [style.color]="balance < 0 ? '#f47742': '#42f456'">${{balance}}</em></p></td>
+								</tr>							
+							</table>
+<!--
+							<p style="font-weight:bold;font-size: 1.5rem;" align="center">Summary of {{displaystartDate | date:"dd MMMM yyyy"}} to {{displayendDate| date:"dd MMMM yyyy"}}</p>
+							<p>Total Income : <em [style.color]="'#42f456'">+ ${{totalIncome}}</em><br /> </p>
+							<p>Total Bonus : <em [style.color]="'#42f456'">+ ${{totalBonus}}</em><br /> </p>
+							<p>Total Paid Loan : <em [style.color]="'#f47742'">- ${{totalPaidLoan}}</em><br /> </p>
+							<p>Total Expense : <em [style.color]="'#f47742'">- ${{totalExpense}}</em><br /> </p>
+							<p>Balance : <em [style.color]="balance < 0 ? '#f47742': '#42f456'">{{balance}}</em><br /> </p>
+-->
+						</ion-item> 
+		  </ion-list>
+		  <ion-item no-lines class="incomeandloanHeader" id="incomeheader">
+				<h2 style="color:#00ca8c;">Incomes</h2>
+		  </ion-item>	
+			  <ion-list no-lines no-padding text-align="center" class="incomelist">
+				<ion-item-sliding style="opacity:1;"  *ngFor="let income of incomes" class="incomes" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
+					<ion-item>
+						<table width="100%" align="center">
+							<tr>
+								<td width="20px" valign="top" style="min-width:20px;height:100%">	
+									<img style="height:60px;width:20px;max-height:60px;" src="assets/icon/icons8-double-left-20.png" >
+								</td>
+								<td valign="top">
+									<table width="100%" style="border-bottom:0 solid #ccccff">
+										<tr>
+											<td width="calc(100% - 220px)"><p style="word-break: break-all;min-width:calc(60% - 70px);"><b>{{income.title}}</b></p>
+											</td>
+											<td width="70px" style="text-align:right"><p>Monthly :</p>
+											</td>
+											<td width="100px" style="text-align:right"><p style="word-break: break-all;">$ {{income.monthlyamount}}</p>
+											</td>
+										</tr>
+									</table>
+									<table width="100%">
+										<tr>
+											<td style="width:50px">
+												<div class="incomeStatusesimg"  [innerHtml]="getIncomeStatus(income)"></div>
+											</td>
+											<td>
+												<div class="incomeStatuses"  [innerHtml]="getIncomeStatusStr(income)"></div>
+											</td>
+										</tr>
+<!--
+										<tr><div class="incomeProgressOuter"  [innerHtml]="getIncomeProgress(income)"></div></tr>
+-->
+									</table>
+								</td>
+							</tr>
+						</table>
+					</ion-item> 
+					<ion-item-options>
+						<button ion-button icon-only color="light" (click)="incometracking(income,slidingItem)">
+						  <ion-icon name="paper"></ion-icon>
+						</button>
+						<button ion-button icon-only color="light" (click)="updateIncome(income)" >
+						  <ion-icon name="create"></ion-icon>
+						</button>
+						<button ion-button icon-only color="primary" (click)="deleteIncome(income)">
+						  <ion-icon name="trash"></ion-icon>
+						</button>
+					</ion-item-options>  
+			  </ion-item-sliding>		
+			</ion-list>
+		  <ion-item no-lines class="incomeandloanHeader" id="loanheader">
+				<h2 style="color:#f47742;">Loans</h2>
+				
+		  </ion-item>			  
+		  <ion-list no-padding no-lines text-align="center" class="loanlist">
+			<ion-item-sliding *ngFor="let loan of loans" class="loans" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
+			  <ion-item #item >
+					<table width="100%">
+						<tr>
+							<td width="20px" valign="top">	
+								<img style="height:100%;width:20px;max-height:60px;" src="assets/icon/icons8-double-left-20.png" >
+							</td>
+							<td>
+								<table width="100%" style="border-bottom:2px solid #ccccff">
+									<tr>
+										<td width="calc(100% - 220px)"><p style="word-break: break-all;min-width:calc(60% - 70px);"><b>{{loan.title}}</b></p>
+										</td>
+										<td width="70px" style="text-align:right"><p>Monthly :</p>
+										</td>
+										<td width="100px" style="text-align:right"><p style="word-break: break-all;">$ {{loan.monthlyamount}}</p>
+										</td>
+									</tr>
+								</table>
+			<!--
+								 progress:{{loan.progress}} {{loan.status}}
+			-->
+								<table width="100%">
+									<tr><div class="loanStatuses"  [innerHtml]="getLoanStatus(loan)"></div></tr>
+									<tr><div class="loanProgressOuter"  [innerHtml]="getLoanProgress(loan)"></div></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+			  </ion-item> 
+			  <ion-item-options>
+				<button ion-button icon-only color="light" (click)="loantracking(loan,slidingItem)">
+				  <ion-icon name="paper"></ion-icon>
+				</button>
+				<button ion-button icon-only color="light" (click)="updateLoan(loan,slidingItem)">
+				  <ion-icon name="create"></ion-icon>
+				</button>
+				<button ion-button icon-only color="primary" (click)="deleteLoan(loan,slidingItem)">
+				  <ion-icon name="trash"></ion-icon>
+				</button>
+			  </ion-item-options>
+			</ion-item-sliding>
+		   </ion-list> 
+		</tr>
+		<tr id="footer">
+		</tr>
+	</table>
+</ion-content>

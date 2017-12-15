@@ -1,0 +1,292 @@
+ .ios, .md {
+        page-home  {
+		
+			$bordercolor:     #ccccff;
+			.scroll-content{
+/*
+				background: url('../assets/img/BackGround.jpg') no-repeat center;
+				background-size:repeat;
+*/
+				background-color:white;
+				display: flex !important;
+				justify-content: center;
+			}
+			.sideMenu{
+/*
+				background: url('../assets/img/BackGround.jpg') no-repeat center;
+				background-size:cover;
+*/
+				background-color:#1f6bff;
+				display: flex !important;
+				width:70%;height:500%;
+				display: flex !important;
+				text-align:center;
+				align-items: center;
+				flex-direction: column;
+				border-top:1px solid black;
+			}	
+			.menuHeader{
+				border-bottom:1px solid white;
+				padding:30px 20px 0 20px;
+				width:100%;
+				margin-bottom:0;
+				p{
+					color:white;
+					text-align:center;
+					font-weight: bold;
+					display:block;
+					font-size:20px;
+					font-style:italic;
+				}			
+			}
+			.grid{
+				padding:0;
+			}
+			ion-fab[top] {
+				top: calc(0% + 15px);
+			}
+			ion-fab[center] {
+				left: calc(100% - 50px);
+				margin-left: -28px;
+			}
+			ion-fab-list{
+				left: -75px;
+				text-align: -webkit-right;
+			}
+			.pageHeader{
+				padding: 10px;
+				background-color:rgba(0,0,0,0.3);
+				p{
+					padding-top:15px;
+				}
+				div{
+					padding:3px;
+					white-space: normal;
+					height:70px;
+					background-color:rgba(255,255,255,1);
+					width:calc(100% - 50px);
+				}
+			}
+			ion-list {
+				align:center;
+				width: 100%;
+				margin: 0;
+			}
+			
+			ion-item-options .button{
+				align-self:center;
+				height:100%;
+			}
+			ion-item{
+				background-color:rgba(255,255,255,1);
+				height:100%;
+				p{
+					white-space: normal;
+				}
+			}
+			.incomeandloanHeader{
+				height:30px;
+				h2{
+					align:center;
+					font-weight:Bold;
+					border-bottom: 1px solid grey;
+				}
+			}
+			.summary {
+				padding : 0;
+				ion-item-sliding{
+					background-color:rgba(255,255,255,1);					
+				}				
+				p {
+				font-size: 1.2rem;
+				}
+				em{
+					font-style: normal;
+					font-weight: bold;
+				}
+			}
+/*
+			.incomelist{
+				.col {
+					padding:0;
+					}
+				.row {
+					padding:0;
+					}
+				overflow:auto;
+				align-item:center;
+				width:100%;
+						.label {
+						   margin: 0!important;
+						   height:100%!important;
+						}
+						.item-inner {
+						   padding: 0px!important;
+						}
+						.input-wrapper{
+							padding:0px;
+						}
+			}
+*/
+			.loanlist, .incomelist {
+				padding : 0;
+				ion-item-sliding{
+					background-color:rgba(255,255,255,1);					
+				}				
+			}
+/*
+			.incomes{
+				align:center;text-align:center;
+				transform: rotate(0deg);
+				margin:0;padding:0;
+				background-color:rgba(255,255,255,1);		
+				ion-item {
+					padding:0;
+					border-radius: 0px;
+					min-width:30px;
+					height:100%;					
+						.label {
+						   margin: 0!important;
+						   height:100%!important;
+						}
+						.item-inner {
+						   padding: 0px!important;
+						   height:100%;
+						}
+						.input-wrapper{
+							padding:0px;
+						}
+					}
+			}
+*/
+			.loans, .incomes {
+				margin:0;
+				border-radius: 0;
+				width: 100%;
+				padding-top:0;padding-bottom:0;
+				.loanStatuses{
+				  width: 100%;
+				  padding: 0px;  
+				  text-align: left;
+				  p {
+					font-size: 1.2rem;
+				  }
+				}
+				.loanStatus,.incomeStatus{
+				height:25px;
+				width:25px;
+				float:left;
+				}
+				.incomeStatuses{
+					div{float:left;width:100%;}
+					p{border-bottom:2px solid #ccccff}
+				}
+				.incomeStatusesimg{
+					max-width:50px;
+					div{float:left;}
+				}
+				.loanProgressOuter, .incomeProgressOuter{
+				  width: 100%;
+				  border-radius: 10px;
+				  border: 1px solid $bordercolor;
+				  padding: 0px;  
+				  text-align: left;
+				  height:20px; 
+				  overflow:hidden;
+				  p {
+					  font-size: 1rem;
+					  text-align: left;
+					  margin:0.5rem 0 0 1rem;
+					  white-space:normal;
+				  }
+				}
+				.loanProgressInner, .incomeProgressInner{
+				  border-radius: 5px;
+				  background: #66ff99;
+				  height:100%; 
+
+				}
+				.innerfloating{
+					position:absolute;
+					width:100%;
+				}
+
+				ion-item{
+					background-color:rgba(255,255,255,0.95);
+				}
+			}			
+			.floatingButton{
+				white-space: nowrap;
+				background-color:rgba(45,137,255,0.4);
+				padding: 0px 0px 0px 10px;
+				margin:0;
+				align:center;
+				display:block;
+				overflow:hidden;
+				position:relative;
+				border-bottom:1px solid white;
+				height:60px;
+				width:100%;
+				p{
+					color:white;
+					text-align:left;
+					font-weight: bold;
+					display:block;
+					font-size:15px
+				}
+			}
+			/* Chrome, Safari, Opera */
+			@-webkit-keyframes sideMenuButtonIn {
+			    0%   {
+						margin-left: -101%;
+						opacity:0;
+					}
+				99%  {						
+						margin-left: 0;
+						opacity:1;
+					}
+				100% {
+						visibility:yes;
+					}
+			}
+			@-webkit-keyframes listIn {
+			    0%  {
+						opacity:0;
+					}
+				99%  {					
+						opacity:1;
+					}
+				100% {
+						visibility:yes;
+					}
+			}
+			@-webkit-keyframes sideMenuButtonOut {
+			    0%   {
+						margin-left: 0;
+						opacity:1;
+					}
+				99%  {						
+						margin-left: -101%;
+						opacity:0;
+					}
+				100% {
+						visibility:hidden;
+					}
+			}
+			@-webkit-keyframes listOut {
+			    0%  {
+						opacity:1;
+					}
+				99%  {					
+						opacity:0;
+					}
+				100% {
+						visibility:hidden;
+					}
+			}
+			@keyframes mynewmove {
+				from {width: 0%;}
+				to {width: 100%;}
+			}
+        }
+ }

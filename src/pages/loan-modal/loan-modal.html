@@ -1,0 +1,72 @@
+<!--
+  Generated template for the LoanModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary" align="center">
+    <ion-title>Loan Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <p [hidden]="true">TransactionID : {{maxTansactionID}}, trackingCount: {{trackingCount}}</p>
+  <ion-item>
+    <ion-label floating>Your Loan title</ion-label>
+    <ion-input  [(ngModel)]="title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Monthly Payment</ion-label>
+    <ion-input  [(ngModel)]="monthlyamount" type="number"></ion-input>
+  </ion-item>
+   <ion-item>
+       <ion-label stacked> Loan start date : </ion-label>
+       <ion-input type ="date" (input)= "date = $event.target.value" [(ngModel)]="startdate" (ionChange)="onstartDateChange()"></ion-input>
+  </ion-item> 
+ <ion-item>
+    <ion-label stacked>Loan end date</ion-label>
+       <ion-input type ="date" (input)= "date = $event.target.value" [(ngModel)]="enddate" ng-change="onSearchChange()" (ionChange)="onendDateChange()"></ion-input>  </ion-item>
+  <ion-item>
+    <ion-label floating>Payment made at what day of every month?</ion-label>
+    <ion-select [(ngModel)]="monthlypaymentday" multiple="false">
+		<ion-option *ngFor="let day of dayOfMonth">{{day}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <br/>
+  <ion-list radio-group [(ngModel)]="paymenttype" (ionChange)="onPaymentTypeChange()">
+    <ion-item>
+      <ion-label>Scheduled online banking payment</ion-label>
+      <ion-radio  value="Scheduled online banking payment" checked></ion-radio>
+    </ion-item>
+  <ion-item [hidden]="banknamehiddenstate">
+    <ion-label floating>Bank Name</ion-label>
+    <ion-input  [(ngModel)]="bankname"></ion-input>
+  </ion-item>
+    <ion-item>
+      <ion-label>Pay by Cash</ion-label>
+      <ion-radio  value="Pay by Cash"></ion-radio>
+    </ion-item>
+  </ion-list>
+   <ion-item no-lines>
+     <ion-label>Notify Me</ion-label>
+     <ion-checkbox [(ngModel)]="notificationstates" (ionChange)="notificationState()"></ion-checkbox>
+   </ion-item>
+   <ion-item no-lines [hidden]="notificationhiddenstate">
+    <ion-label stacked> Notification day(s) before </ion-label>
+    <ion-select [(ngModel)]="notificationDaysBefore" multiple="false">
+		<ion-option *ngFor="let dayno of daysNoBefore">{{dayno}}</ion-option>
+    </ion-select> 
+  </ion-item >
+  <ion-item no-lines [hidden]="notificationhiddenstate">
+       <ion-label stacked> time </ion-label>
+       <ion-input type ="time" (input)= "time = $event.target.value" [(ngModel)]="notificationTime" ></ion-input>
+  </ion-item>
+<table width="100%">
+				<div style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="deleteLoan()"><p [innerHtml]="action==='Create'?'Cancel':'Delete'" align="center" style="color:white;font-weight:bold;"></p></ion-item>
+				</div>
+				<div style="float:left;width:50%;border:1px solid white;"><ion-item [style.background-color]="'#1f6bff'" (click)="saveLoan()"><p align="center" style="color:white;font-weight:bold;">Save</p></ion-item>
+				</div>
+</table>
+</ion-content>

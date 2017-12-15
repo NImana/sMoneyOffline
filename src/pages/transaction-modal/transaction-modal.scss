@@ -1,0 +1,61 @@
+page-transaction-modal {
+
+}
+ .ios, .md {
+        page-transaction-modal  {
+			.scroll-content{
+				background-color:white;
+				display: flex !important;
+				justify-content: center;
+			}
+			.fab {
+				contain: layout;
+			}
+/*
+			ion-fab-list button[ion-fab] {
+				overflow: visible;
+				position: relative;
+				top:-10px;
+				ion-label {
+					position: absolute;
+					top: 8px;
+					right: 40px;
+
+					color: white;
+					background-color: rgba(0,0,0,0.7);
+					line-height: 24px;
+					padding: 4px 8px;
+					border-radius: 4px;
+				}
+			}
+*/
+/*
+			ion-fab-list{
+				left: -75px;
+				text-align: -webkit-right;
+			}
+*/
+			.menulabel {
+				float:left;
+				margin:2px;
+				right: 40px;
+				margin-top:-15px;
+				width:130px;
+				color: white;
+				font-weight:bold;
+				background-color:rgba(45,137,255,0.8);
+				text-align:center;
+			}
+		
+			.transactionHeader{
+				height:30px;
+				h2{
+					align:center;
+					color:grey;
+					font-weight:bold;
+					border-bottom: 1px solid grey;
+				}
+			}
+		}
+ }
+
