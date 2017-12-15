@@ -24,7 +24,7 @@ trID:number;
 typeID:number;
 type:string=this.navParams.get('type');
 title:string;
-amount:number=0;
+amount;
 transactionDate:string=moment(new Date()).format('YYYY-MM-DD');
 transactionTime:string=moment(new Date()).format('HH:mm');
 paymenttype:string='Pay by Cash';
@@ -148,7 +148,7 @@ displayendDate=new Date(this.endDate).toISOString().slice(0,10);
 		if (action==='Bonus'||action==='Expense'){
 			this.addTransactionHiddenState=false;
 			this.type=action;
-			this.title='';this.amount=0;
+			this.title='';this.amount='';
 			this.transactionDate=moment(new Date()).format('YYYY-MM-DD');
 			this.transactionTime=moment(new Date()).format('HH:mm');
 			this.paymenttype='Pay by Cash';
