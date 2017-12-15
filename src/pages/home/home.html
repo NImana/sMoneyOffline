@@ -58,10 +58,13 @@
 				<p align="center" style="color:white;font-weight:bold;">Set End date</p>
 			</ion-item>
 		</div>				
-		  <ion-list class="summary" (click)="showMenu(slidingItem)">
+		  <ion-list class="summary" >
 						<ion-item>
-							<p style="font-weight:bold;font-size: 1.5rem;" align="center" (click)="changeDateRange('')">Summary of {{displaystartDate | date:"dd MMMM yyyy"}} to {{displayendDate| date:"dd MMMM yyyy"}}</p>
-							<table width="100%">
+							<div width="100%" (click)="changeDateRange('')">
+							<p style="font-weight:bold;font-size: 1.5rem;" align="center" >Summary of {{displaystartDate | date:"dd MMMM yyyy"}} to {{displayendDate| date:"dd MMMM yyyy"}}</p>
+							<p style="color:grey;" align="center"> (Tap here to change date range)</p>
+							</div>
+							<table width="100%" (click)="showMenu(slidingItem)">
 								<tr>
 									<td width="70%"><p>Total Income</p></td>
 									<td width="2px"><p>:</p></td>
@@ -98,12 +101,12 @@
 -->
 						</ion-item> 
 		  </ion-list>
-		  <ion-item no-lines class="incomeandloanHeader" id="incomeheader">
-				<h2 style="color:#00ca8c;">Incomes</h2>
+		  <ion-item no-lines class="incomeandloanHeader" id="incomeheader" (click)="createIncome(fab)">
+				<h2 style="color:#00ca8c;">Incomes</h2> <p style="color:grey;"> (Tap here to add)</p>
 		  </ion-item>	
 			  <ion-list no-lines no-padding text-align="center" class="incomelist">
 				<ion-item-sliding style="opacity:1;"  *ngFor="let income of incomes" class="incomes" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
-					<ion-item>
+					<ion-item no-padding>
 						<table width="100%" align="center">
 							<tr>
 								<td width="20px" valign="top" style="min-width:20px;height:100%">	
@@ -133,6 +136,7 @@
 										<tr><div class="incomeProgressOuter"  [innerHtml]="getIncomeProgress(income)"></div></tr>
 -->
 									</table>
+									<p style="color:grey;font-size:10px;" align="center"> (Slide left to edit)</p>
 								</td>
 							</tr>
 						</table>
@@ -150,13 +154,13 @@
 					</ion-item-options>  
 			  </ion-item-sliding>		
 			</ion-list>
-		  <ion-item no-lines class="incomeandloanHeader" id="loanheader">
-				<h2 style="color:#f47742;">Loans</h2>
+		  <ion-item no-lines class="incomeandloanHeader" id="loanheader" (click)="createLoan(fab)">
+				<h2 style="color:#f47742;">Loans</h2><p style="color:grey;"> (Tap here to add)</p>
 				
 		  </ion-item>			  
 		  <ion-list no-padding no-lines text-align="center" class="loanlist">
 			<ion-item-sliding *ngFor="let loan of loans" class="loans" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
-			  <ion-item #item >
+			  <ion-item #item no-padding>
 					<table width="100%">
 						<tr>
 							<td width="20px" valign="top">	
@@ -180,6 +184,7 @@
 									<tr><div class="loanStatuses"  [innerHtml]="getLoanStatus(loan)"></div></tr>
 									<tr><div class="loanProgressOuter"  [innerHtml]="getLoanProgress(loan)"></div></tr>
 								</table>
+								<p style="color:grey;font-size:10px;" align="center"> (Slide left to edit)</p>
 							</td>
 						</tr>
 					</table>

@@ -1,6 +1,5 @@
  .ios, .md {
         page-home  {
-		
 			$bordercolor:     #ccccff;
 			.scroll-content{
 /*
@@ -130,6 +129,7 @@
 */
 			.loanlist, .incomelist {
 				padding : 0;
+				padding-left:10px;
 				ion-item-sliding{
 					background-color:rgba(255,255,255,1);					
 				}				
@@ -191,12 +191,12 @@
 				  border: 1px solid $bordercolor;
 				  padding: 0px;  
 				  text-align: left;
-				  height:20px; 
+				  height:15px; 
 				  overflow:hidden;
 				  p {
-					  font-size: 1rem;
-					  text-align: left;
-					  margin:0.5rem 0 0 1rem;
+					  font-size: 12px;
+					  align: right;
+					  margin: 0 0 0.5rem 1rem;
 					  white-space:normal;
 				  }
 				}

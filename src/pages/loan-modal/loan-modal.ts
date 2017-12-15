@@ -101,7 +101,7 @@ daysNoBefore:any=['1 day before','2 days before','3 days before','4 days before'
 		var nextPaymentDate = moment(this.smoneydb.getNextPaymentDate(this.startdate,this.enddate,loanDay));
 		var nextNotificationTime = new Date(nextPaymentDate.subtract('day', parseInt(this.notificationDaysBefore)).format('YYYY-MM-DD ')+this.notificationTime);
 		nextNotificationTime=nextNotificationTime>new Date()?nextNotificationTime:moment(nextNotificationTime).add('month',1).toDate();
-		alert('Next Payment Date : ' + nextNotificationTime);
+		//alert('Next Payment Date : ' + nextNotificationTime);
 		if (nextNotificationTime<=new Date(this.enddate)){this.createNotification(nextNotificationTime);}
 		this.viewCtrl.dismiss([true,this.trackingCount]);
 		

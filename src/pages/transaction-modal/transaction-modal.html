@@ -76,7 +76,10 @@
 			</ion-item>
 		</div>
 		  <ion-item no-lines class="transactionHeader">
-			  <p style="font-weight:bold;font-size: 1.5rem;margin-top:10px;" align="center" (click)="changeDateRange('')">Transaction History of {{displaystartDate | date:"dd MMM yy"}} to {{displayendDate| date:"dd MMM yy"}}</p>
+			  <div width="100%" (click)="changeDateRange('')">
+				<p style="font-weight:bold;font-size: 1.5rem;margin-top:10px;" align="center" (click)="changeDateRange('')">Transaction History of {{displaystartDate | date:"dd MMM yy"}} to {{displayendDate| date:"dd MMM yy"}}</p>
+				<p style="color:grey;" align="center"> (Tap here to change date range)</p>
+			  </div>
 		  </ion-item>
 			<ion-list text-align="center" no-padding>
 				<ion-item-sliding *ngFor="let transaction of transactions" #slidingItem>
@@ -95,6 +98,7 @@
 							</td>
 						</tr>
 					</table>
+					<p style="color:grey;font-size:10px;" align="center"> (Slide left to edit)</p>
 <!--
 						<ion-grid no-padding>
 						  <ion-row>

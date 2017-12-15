@@ -32,14 +32,16 @@ years:any=[];
 				public loadingCtrl: LoadingController,
 				public viewCtrl: ViewController,
 				public platform: Platform) {
-		platform.ready().then(() => {
+					this.registerbackbtn();
+  }
+	registerbackbtn(){
+		this.platform.ready().then(() => {
 			  //Registration of push in Android and Windows Phone
-			  platform.registerBackButtonAction(() => {
+			  this.platform.registerBackButtonAction(() => {
 				  this.viewCtrl.dismiss();
 			  });
 		});
-  }
-
+	}
 	ionViewDidLoad() {
 		this.getData();	
 	}
@@ -50,6 +52,7 @@ years:any=[];
 		 this.getData();
 	}
 	getData() {
+		this.registerbackbtn();
 		var trackyeardata = [this.typeid,this.type];
 		var curYear= new Date().getFullYear();
 		this.smoneydb.gettrackyear(trackyeardata).then((result) => {

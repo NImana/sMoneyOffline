@@ -51,7 +51,24 @@ changedateHiddenState:boolean=true;
 			if(this.menuHiddenState==false){ 
 				this.platform.registerBackButtonAction(() => {this.getData();this.menufab.close();});
 			}else{
-				this.platform.registerBackButtonAction(() => {this.platform.exitApp();});				
+				this.platform.registerBackButtonAction(() => {
+					let prompt = this.alertCtrl.create({
+					  title: 'Exit this application?',
+					  message: 'Do you want to exit this app?' ,
+					  buttons: [
+						{
+						  text: 'Cancel'
+						},
+						{
+						  text: 'Exit',
+						  handler: data => {
+							this.platform.exitApp();
+						  }
+						}
+					  ]
+					});
+					prompt.present();
+				});				
 			}
 		});
 	}
