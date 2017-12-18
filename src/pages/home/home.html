@@ -106,13 +106,7 @@
 		  </ion-item>	
 			  <ion-list no-lines no-padding text-align="center" class="incomelist">
 				<ion-item-sliding style="opacity:1;"  *ngFor="let income of incomes" class="incomes" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
-					<ion-item no-padding>
-						<table width="100%" align="center">
-							<tr>
-								<td width="20px" valign="top" style="min-width:20px;height:100%">	
-									<img style="height:60px;width:20px;max-height:60px;" src="assets/icon/icons8-double-left-20.png" >
-								</td>
-								<td valign="top">
+					<ion-item>
 									<table width="100%" style="border-bottom:0 solid #ccccff">
 										<tr>
 											<td width="calc(100% - 220px)"><p style="word-break: break-all;min-width:calc(60% - 70px);"><b>{{income.title}}</b></p>
@@ -136,10 +130,7 @@
 										<tr><div class="incomeProgressOuter"  [innerHtml]="getIncomeProgress(income)"></div></tr>
 -->
 									</table>
-									<p style="color:grey;font-size:10px;" align="center"> (Slide left to edit)</p>
-								</td>
-							</tr>
-						</table>
+									<p style="color:grey;font-size:10px;" align="center"> &lt;&lt; Slide left to see tracking, edit & delete &lt;&lt;</p>
 					</ion-item> 
 					<ion-item-options>
 						<button ion-button icon-only color="light" (click)="incometracking(income,slidingItem)">
@@ -160,13 +151,8 @@
 		  </ion-item>			  
 		  <ion-list no-padding no-lines text-align="center" class="loanlist">
 			<ion-item-sliding *ngFor="let loan of loans" class="loans" #slidingItem (ionDrag)="assingSlider(slidingItem,$event)" (click)="showMenu(slidingItem)">
-			  <ion-item #item no-padding>
-					<table width="100%">
-						<tr>
-							<td width="20px" valign="top">	
-								<img style="height:100%;width:20px;max-height:60px;" src="assets/icon/icons8-double-left-20.png" >
-							</td>
-							<td>
+			  <ion-item #item>
+
 								<table width="100%" style="border-bottom:2px solid #ccccff">
 									<tr>
 										<td width="calc(100% - 220px)"><p style="word-break: break-all;min-width:calc(60% - 70px);"><b>{{loan.title}}</b></p>
@@ -184,10 +170,7 @@
 									<tr><div class="loanStatuses"  [innerHtml]="getLoanStatus(loan)"></div></tr>
 									<tr><div class="loanProgressOuter"  [innerHtml]="getLoanProgress(loan)"></div></tr>
 								</table>
-								<p style="color:grey;font-size:10px;" align="center"> (Slide left to edit)</p>
-							</td>
-						</tr>
-					</table>
+									<p style="color:grey;font-size:10px;" align="center"> &lt;&lt; Slide left to see tracking, edit & delete &lt;&lt;</p>
 			  </ion-item> 
 			  <ion-item-options>
 				<button ion-button icon-only color="light" (click)="loantracking(loan,slidingItem)">

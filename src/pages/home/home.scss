@@ -129,7 +129,6 @@
 */
 			.loanlist, .incomelist {
 				padding : 0;
-				padding-left:10px;
 				ion-item-sliding{
 					background-color:rgba(255,255,255,1);					
 				}				
@@ -176,6 +175,8 @@
 				height:25px;
 				width:25px;
 				float:left;
+				.label{margin:0;}
+				.item-inner{padding:0;}
 				}
 				.incomeStatuses{
 					div{float:left;width:100%;}

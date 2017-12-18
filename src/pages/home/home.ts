@@ -495,7 +495,10 @@ changedateHiddenState:boolean=true;
 			//alert(this.slidingItem==slidingItem);
 			//alert(slidingItem.getOpenAmount()+'   '+slidingItem.getSlidingPercent());
 			setTimeout(() => {document.getElementById("fabbutton").style.cssText="visibility:hidden;";}, 500);
+		}else{
+			this.showMenu(slidingItem);
 		}
+		
 	}
 	showMenu(slidingItem){
 		this.getData();	
