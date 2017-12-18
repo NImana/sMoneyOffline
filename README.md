@@ -6,5 +6,5 @@ This applications is developed using starter template for [Ionic](http://ionicfr
 
 Icons for this apps comes freely from Icon8.com.
 
-Sounds for this apps comes freely from freesound.org.
+Sounds for this apps comes freely from soundjay.com
 
