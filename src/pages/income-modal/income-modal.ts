@@ -44,15 +44,22 @@ status = false;
 				public smoneydb: SqlitedbProvider,
 				public alertCtrl: AlertController,
 				public platform: Platform) {
-		platform.ready().then(() => {
+					this.registerbackbtn();
+	}
+	registerbackbtn(){
+		this.platform.ready().then(() => {
 			  //Registration of push in Android and Windows Phone
-			  platform.registerBackButtonAction(() => {
-				  this.viewCtrl.dismiss();
+			  this.platform.registerBackButtonAction(() => {
+				  this.viewCtrl.dismiss([false,1]);
 			  });
 		});
 	}
 	ionViewDidLoad() {
 	console.log('ionViewDidLoad IncomeModalPage');
+					this.registerbackbtn();
+	}
+	ionViewWillEnter() {
+		this.registerbackbtn();
 	}
 	createIncome(incomeDay){
 		this.maxIncomeID=this.maxIncomeID+1;

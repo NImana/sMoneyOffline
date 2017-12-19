@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import * as moment from 'moment';
 
 /*
@@ -14,7 +15,7 @@ import * as moment from 'moment';
 export class SqlitedbProvider {
 	db: SQLiteObject;
 	dbName = 'sMoneyOffline.db';
-	constructor(public http: Http,private sqlite: SQLite) {
+	constructor(public http: Http,private sqlite: SQLite,public localNotifications: LocalNotifications) {
     console.log('Hello SqlitedbProvider Provider');
   }
     initDB(){
@@ -513,5 +514,29 @@ export class SqlitedbProvider {
 				.catch(e => resolve(e));
 			}); 
 		});
+	}
+		createRepeatNotification(type,id,amount,title,firstNotificationTime,nextpaymentdate){
+		var typecode=type=='Loan'?1000:type==='Income'?5000:type==='Savings'?9000:11000;
+		var notificationID=typecode+id;
+		var notimessage= 'Make sure you have $ '+amount+' for the payment.\n Have a good day ahead!';
+		this.localNotifications.hasPermission().then((granted)=> {
+			if (!granted) {
+				this.localNotifications.registerPermission();
+			}
+			this.localNotifications.cancel(notificationID);
+			let notification={
+			   id:notificationID,
+			   title:'Payment for ' + title + ' on ' + moment(nextpaymentdate).format('dddd, Do ') + moment().format('MMMM') ,
+			   text: notimessage,
+			   at: firstNotificationTime,
+			   every: 'month',
+			   led: 'FF0000',
+			   sound: 'file://assets/sound/counting-coins-2.wav',
+			   icon:'file://assets/img/icon.png',
+			   smallIcon:'file://assets/img/icon.png'
+			}
+			this.localNotifications.schedule(notification);
+			//alert(granted);
+		}).catch((error) => {alert(error);}); 
 	}
 }

@@ -49,30 +49,33 @@ daysNoBefore:any=['1 day before','2 days before','3 days before','4 days before'
 				public alertCtrl: AlertController,
 				public localNotifications: LocalNotifications,
 				public platform: Platform) {
-		platform.ready().then(() => {
-			  //Registration of push in Android and Windows Phone
-			  platform.registerBackButtonAction(() => {
-				  this.viewCtrl.dismiss();
-			  });
-		});
+					this.registerbackbtn();
 	}
 	ionViewDidLoad() {
 	console.log('ionViewDidLoad LoanModalPage');
+					this.registerbackbtn();
 	}
-	
+	registerbackbtn(){
+		this.platform.ready().then(() => {
+			  //Registration of push in Android and Windows Phone
+			  this.platform.registerBackButtonAction(() => {
+				  this.viewCtrl.dismiss([false,1]);
+			  });
+		});
+	}
+	ionViewWillEnter() {
+		this.registerbackbtn();
+	}	
 	createLoan(loanDay,notidb){
 		this.maxLoanID=this.maxLoanID+1;
 		var data = [this.maxLoanID,this.title,this.monthlyamount,Date.parse(this.startdate),Date.parse(this.enddate),loanDay,this.paymenttype,this.bankname,'',notidb];
 		this.smoneydb.addData('Loans','(?,?,?,?,?,?,?,?,?,?)', data);
 		this.maxTansactionID = this.smoneydb.createTrackingDetails(this.maxTansactionID,this.maxLoanID,'Loan',new Date(this.startdate),new Date(this.enddate),loanDay,this.monthlyamount,this.bankname,'create');
 		this.status=true;
-		//var nextPaymentDate=this.smoneydb.getNextPaymentDate(this.startdate,this.enddate,loanDay);
-		//this.testNotification();
 		var nextPaymentDate = moment(this.smoneydb.getNextPaymentDate(this.startdate,this.enddate,loanDay));
 		var nextNotificationTime = new Date(nextPaymentDate.subtract('day', parseInt(this.notificationDaysBefore)).format('YYYY-MM-DD ')+this.notificationTime);
 		nextNotificationTime=nextNotificationTime>new Date()?nextNotificationTime:moment(nextNotificationTime).add('month',1).toDate();
-		alert('Next Payment Date : ' + nextNotificationTime);
-		if (nextNotificationTime<=new Date(this.enddate)){this.createNotification(nextNotificationTime);}
+		this.smoneydb.createRepeatNotification('Loan',this.maxLoanID,this.monthlyamount,this.title,nextNotificationTime,new Date(nextPaymentDate.format('YYYY-MM-DD')));
 		this.viewCtrl.dismiss([this.status,this.trackingCount]);
 	}
 	updateLoan(loanDay,notidb){
@@ -101,8 +104,7 @@ daysNoBefore:any=['1 day before','2 days before','3 days before','4 days before'
 		var nextPaymentDate = moment(this.smoneydb.getNextPaymentDate(this.startdate,this.enddate,loanDay));
 		var nextNotificationTime = new Date(nextPaymentDate.subtract('day', parseInt(this.notificationDaysBefore)).format('YYYY-MM-DD ')+this.notificationTime);
 		nextNotificationTime=nextNotificationTime>new Date()?nextNotificationTime:moment(nextNotificationTime).add('month',1).toDate();
-		//alert('Next Payment Date : ' + nextNotificationTime);
-		if (nextNotificationTime<=new Date(this.enddate)){this.createNotification(nextNotificationTime);}
+		this.smoneydb.createRepeatNotification('Loan',this.maxLoanID,this.monthlyamount,this.title,nextNotificationTime,new Date(nextPaymentDate.format('YYYY-MM-DD')));
 		this.viewCtrl.dismiss([true,this.trackingCount]);
 		
 	}
@@ -177,28 +179,5 @@ daysNoBefore:any=['1 day before','2 days before','3 days before','4 days before'
 	closeModal() {
 		this.viewCtrl.dismiss();
 	}
-	createNotification(nextPaymentDate){
-		//var nextPaymentDate=new Date('2017-12-07 23:40');
-		var notificationID=this.action==='Create'?1000+parseInt(this.maxLoanID):1000+parseInt(this.typeid);
-		var notimessage= 'Payment for ' + this.title + ' will be schedule soon. Make sure you have enough balance for the payment. Have a good day ahead!';
-		//alert(nextPaymentDate);
-		this.localNotifications.hasPermission().then((granted)=> {
-			if (!granted) {
-				this.localNotifications.registerPermission();
-			}
-			this.localNotifications.cancel(notificationID);
-			let notification={
-			   id:notificationID,
-			   text: notimessage,
-			   at: nextPaymentDate,
-			   led: 'FF0000',
-			   sound: 'file://assets/sound/counting-coins-2.wav',
-			   icon:'file://assets/img/icon.png',
-			   smallIcon:'file://assets/img/icon.png'
-			}
-			this.localNotifications.schedule(notification);
-			//alert(granted);
-		}).catch((error) => {alert(error);}); 
-	}	
 }
 

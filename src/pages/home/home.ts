@@ -44,6 +44,7 @@ changedateHiddenState:boolean=true;
 				public platform: Platform) 
 				{
 				this.registerbackbtn();
+				this.localnotificationscheck();
 		    }
     registerbackbtn(){
 		this.platform.ready().then(() => {
@@ -72,15 +73,38 @@ changedateHiddenState:boolean=true;
 			}
 		});
 	}
+	localnotificationscheck(){
+		this.localNotifications.on("trigger", (notification, state) => {
+			  let alert = this.alertCtrl.create({
+				title: notification.title,
+				subTitle: notification.text,
+				buttons: ['Dismiss']
+			  });
+			  alert.present();
+			//this.printObject(notification);
+			//this.printObject(state);
+        });
+		this.localNotifications.on("click", (notification, state) => {
+			  let alert = this.alertCtrl.create({
+				title: notification.title,
+				subTitle: notification.text,
+				buttons: ['Dismiss']
+			  });
+			  alert.present();
+        });
+	}
 	ionViewDidLoad() {
 	//	this.getData();
+		this.localnotificationscheck();
 	}
 	ionViewWillEnter() {
 	//	 this.getData();
+		this.localnotificationscheck();
 	}
 	ionViewDidEnter(){
 		 this.getData();
 		 this.registerbackbtn();
+		 this.localnotificationscheck();
 	}
 	cssSettings(){
 		    var incomesElement,loansElement,HTMLel;
@@ -221,9 +245,9 @@ changedateHiddenState:boolean=true;
 				setTimeout(() => {loading.dismiss();this.getData();}, timeout);
 			}else{this.getData();}
 			this.getData();		
+			this.registerbackbtn();
 		});
 		loanModal.present();
-		this.registerbackbtn();
 	}
 	createIncome(fab: FabContainer){
 		fab.close();
@@ -257,9 +281,9 @@ changedateHiddenState:boolean=true;
 				setTimeout(() => {loading.dismiss();this.getData();}, timeout);
 			}else{this.getData();}	
 			this.getData();
+			this.registerbackbtn();
 		});
 		incomeModal.present();
-		this.registerbackbtn();
 	}
 	updateLoan(loan,slidingItem){
 		var notidb = loan.notiDaysBefore===''?['1 day before','08:00']:loan.notiDaysBefore.split(',');		
@@ -289,10 +313,10 @@ changedateHiddenState:boolean=true;
 				setTimeout(() => {loading.dismiss();this.getData();}, timeout);
 			}else{this.getData();}	
 			this.getData();
+			this.registerbackbtn();
 		});
 		loanModal.present();
 		slidingItem.close();
-		this.registerbackbtn();
 	}
 	updateIncome(income,slidingItem){
 		let incomeAction = {
@@ -318,10 +342,10 @@ changedateHiddenState:boolean=true;
 				setTimeout(() => {loading.dismiss();this.getData();}, timeout);
 			}else{this.getData();}	
 			this.getData();
+			this.registerbackbtn();
 		});
 		incomeModal.present();
 		slidingItem.close();
-		this.registerbackbtn();
 	}
 	loantracking(loan,slidingItem){
 		let loanAction = {
@@ -377,7 +401,6 @@ changedateHiddenState:boolean=true;
 	getLoanStatus(loan){
 		var imgSchedule,imgCash,imgOk,paymentType,strPaid,strUnpaid,strLate,strComplete,currentMonth,Status,monthNames,p;
 		monthNames=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-		//fin = this.smoneydb.getLoanCalculatedDetails(loan.startdate,loan.enddate,loan.monthlypaymentday);
 		imgSchedule = '<img src="assets/icon/schedule64.png" class="loanStatus">';
 		imgCash = '<img src="assets/icon/cash64.png" class="loanStatus">';
 		imgOk = '<img src="assets/icon/ok64.png" class="loanStatus">' ;
@@ -390,15 +413,17 @@ changedateHiddenState:boolean=true;
 		p=loan.progress.split(',');
 		strComplete = parseInt(p[0])==0?strComplete:'<p> Loan overdue! <br /> Loan supposed to end on ' + loan.enddate  + '!</p>';
 		Status = paymentType == 1 ?  imgSchedule : imgCash ;
-		//Status = +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] &&  fin.dayInfo[2] < fin.ld ? Status + strUnpaid : +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] ? Status + strPaid : Status + strComplete;
 		Status=loan.status==='✔'?Status+strPaid:loan.status==='Late'?Status+strLate:(Date.parse(loan.enddate)<Date.parse(new Date().toISOString().slice(0,10))?Status+strComplete:Status+strUnpaid);
-		//refreshexpense&summary
+		if (Status.indexOf("strComplete")>=0){
+				this.localNotifications.hasPermission().then((granted)=> {
+					this.localNotifications.cancel((1000+parseInt(loan.typeid)));
+				}).catch((error) => {alert(error);}); 			
+		}
 		return Status;
 	}
 	getIncomeStatus(income){
 		var imgSchedule,imgCash,imgOk,paymentType,strPaid,strUnpaid,strLate,strComplete,currentMonth,Status,monthNames,p;
 		monthNames=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-		//fin = this.smoneydb.getLoanCalculatedDetails(income.startdate,income.enddate,income.monthlypaymentday);
 		imgSchedule = '<div><img src="assets/icon/schedule64.png" class="incomeStatus"></div>';
 		imgCash = '<div><img src="assets/icon/cash64.png" class="incomeStatus"></div>';
 		imgOk = '<div><img src="assets/icon/ok64.png" class="incomeStatus"></div>' ;
@@ -411,15 +436,12 @@ changedateHiddenState:boolean=true;
 		p=income.progress.split(',');
 		strComplete = parseInt(p[0])==0?strComplete:'';
 		Status = paymentType == 1 ?  imgSchedule : imgCash ;
-		//Status = +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] &&  fin.dayInfo[2] < fin.ld ? Status + strUnpaid : +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] ? Status + strPaid : Status + strComplete;
 		Status=income.status==='✔'?Status+strPaid:income.status==='Late'?Status+strLate:(Date.parse(income.enddate)<Date.parse(new Date().toISOString().slice(0,10))?Status+strComplete:Status+strUnpaid);
-		//refreshexpense&summary
 		return Status;
 	}
 	getIncomeStatusStr(income){
 		var imgSchedule,imgCash,imgOk,paymentType,strPaid,strUnpaid,strLate,strComplete,currentMonth,Status,monthNames,p;
 		monthNames=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-		//fin = this.smoneydb.getLoanCalculatedDetails(income.startdate,income.enddate,income.monthlypaymentday);
 		imgSchedule = '<div><img src="assets/icon/schedule64.png" class="incomeStatus"></div>';
 		imgCash = '<div><img src="assets/icon/cash64.png" class="incomeStatus"></div>';
 		imgOk = '<div><img src="assets/icon/ok64.png" class="incomeStatus"></div>' ;
@@ -432,9 +454,7 @@ changedateHiddenState:boolean=true;
 		p=income.progress.split(',');
 		strComplete = parseInt(p[0])==0?strComplete:'<div><p> Payment not fully received.<br /> All income supposed to be received on ' + income.enddate  + '!</p></div>';
 		Status = paymentType == 1 ?  imgSchedule : imgCash ;
-		//Status = +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] &&  fin.dayInfo[2] < fin.ld ? Status + strUnpaid : +fin.cleanDateInfo[2] <= +fin.cleanDateInfo[1] ? Status + strPaid : Status + strComplete;
 		Status=income.status==='✔'?strPaid:income.status==='Late'?strLate:(Date.parse(income.enddate)<Date.parse(new Date().toISOString().slice(0,10))?strComplete:strUnpaid);
-		//refreshexpense&summary
 		return Status;
 	}
 	getLoanTypeEditImage(loan){
@@ -492,13 +512,11 @@ changedateHiddenState:boolean=true;
 			}
 			this.slidingItem=slidingItem;	
 			document.getElementById("fabbutton").style.cssText="opacity:0;-webkit-animation: listOut 0.5s 1;";	
-			//alert(this.slidingItem==slidingItem);
-			//alert(slidingItem.getOpenAmount()+'   '+slidingItem.getSlidingPercent());
 			setTimeout(() => {document.getElementById("fabbutton").style.cssText="visibility:hidden;";}, 500);
-		}else{
-			this.showMenu(slidingItem);
 		}
-		
+		setTimeout(() => {
+			if (this.slidingItem.getSlidingPercent()==0){document.getElementById("fabbutton").style.cssText="visibility:yes;";}
+		}, 500);
 	}
 	showMenu(slidingItem){
 		this.getData();	
