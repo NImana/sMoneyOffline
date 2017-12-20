@@ -43,6 +43,8 @@ changedateHiddenState:boolean=true;
 				public localNotifications: LocalNotifications,
 				public platform: Platform) 
 				{
+					
+				this.platform.ready().then(() => {this.getData();});
 				this.registerbackbtn();
 				this.localnotificationscheck();
 		    }
@@ -74,16 +76,16 @@ changedateHiddenState:boolean=true;
 		});
 	}
 	localnotificationscheck(){
-		this.localNotifications.on("trigger", (notification, state) => {
-			  let alert = this.alertCtrl.create({
-				title: notification.title,
-				subTitle: notification.text,
-				buttons: ['Dismiss']
-			  });
-			  alert.present();
-			//this.printObject(notification);
-			//this.printObject(state);
-        });
+		//this.localNotifications.on("trigger", (notification, state) => {
+			  //let alert = this.alertCtrl.create({
+				//title: notification.title,
+				//subTitle: notification.text,
+				//buttons: ['Dismiss']
+			  //});
+			  //alert.present();
+			////this.printObject(notification);
+			////this.printObject(state);
+        //});
 		this.localNotifications.on("click", (notification, state) => {
 			  let alert = this.alertCtrl.create({
 				title: notification.title,
@@ -94,11 +96,11 @@ changedateHiddenState:boolean=true;
         });
 	}
 	ionViewDidLoad() {
-	//	this.getData();
+		this.getData();
 		this.localnotificationscheck();
 	}
 	ionViewWillEnter() {
-	//	 this.getData();
+		 this.getData();
 		this.localnotificationscheck();
 	}
 	ionViewDidEnter(){

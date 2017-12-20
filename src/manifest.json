@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "sMoneyOffline",
+  "short_name": "sMoneyOffline",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
